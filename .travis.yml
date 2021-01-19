@@ -1,0 +1,11 @@
+script:
+  - ./build-app-image.sh
+  - ./build-reverse-proxy-image.sh
+after_success:
+  - echo "SUCCESS"
+  # - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  # - docker push vladflore/simple-express
+  # - docker push vladflore/simple-reverse-proxy
+branches:
+  only:
+    - main
