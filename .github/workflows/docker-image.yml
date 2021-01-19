@@ -1,38 +1,38 @@
-name: Docker Image CI
+name: Docker Images CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-      
-    - name: Docker Login
-      env:
-        DOCKER_USER: ${{secrets.DOCKER_USER}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: |
-        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-         
-    - name: Build App Docker image
-      run: |
-        cd ./app
-        docker --version
-        
-    - name: Build Reverse Proxy Docker image
-      run: |
-        cd ./reverse-proxy
-        docker --version
-        
-    - name: Docker Push
-      run: |
-        docker --version
-        docker --version
+      - uses: actions/checkout@v2
+
+      - name: Docker Login
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+
+      - name: Build App Docker image
+        run: |
+          cd ./app
+          docker build -t simple-express .
+          docker tag simple-express vladflore/simple-express:latest
+
+      - name: Build Reverse Proxy Docker image
+        run: |
+          cd ./reverse-proxy
+          docker build -t simple-reverse-proxy .
+          docker tag simple-reverse-proxy vladflore/simple-reverse-proxy:latest
+
+      - name: Docker Push
+        run: |
+          docker push vladflore/simple-express
+          docker push vladflore/simple-reverse-proxy
