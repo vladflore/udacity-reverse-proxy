@@ -1,3 +1,5 @@
+services:
+  - docker
 script:
   - ./build-app-image.sh
   - ./build-reverse-proxy-image.sh
