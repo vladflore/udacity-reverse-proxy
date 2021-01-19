@@ -54,7 +54,7 @@ kubectl exec -it <POD_NAME> bash
 
 Inside a pod, call the `/health` endpoint of the app running inside the container: `curl http://my-app-2-svc:8080/health`
 
-Inside a pod, call the `/health` endpoint as exposed by the gateway (reverse proxy), which in turn routes the call to the app running inside the other container/pod : `curl http://reverseproxy-svc:8080/api/health`. This routing is possible because the pods share the same network, but they are not accessible from outside.
+Inside a pod, call the `/health` endpoint as exposed by the gateway (reverse proxy), which in turn routes the call to the app running inside the other container/pod : `curl http://reverseproxy-svc:8080/api/health`. This routing is possible because the pods share the same network, while not being accessible from outside.
 
 # License
 
