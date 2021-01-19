@@ -34,22 +34,28 @@ aws eks update-kubeconfig --region eu-central-1 --name my-cluster
 
 ```
 kubectl config view
-
+```
+Connect applications (`deployment.yaml`) with services (`service.yaml`):
+```
 kubectl apply -f app/deployment.yaml 
 kubectl apply -f app/service.yaml 
 kubectl apply -f reverse-proxy/deployment.yaml
 kubectl apply -f reverse-proxy/service.yaml
-
+```
+Get information about the pods and services in a cluster:
+```
 kubectl get pods
 kubectl describe services
 ```
-Connects to the given pod:
+Connect to the given pod:
 ```
 kubectl exec -it <POD_NAME> bash
-
-# inside a pod, calling the /health endpoint of the app
-curl http://my-app-2-svc:8080/health
-
-# this request gets routed to the app itself as per nginx.conf from the reverse proxy
-curl http://reverseproxy-svc:8080/api/health
 ```
+
+Inside a pod, call the `/health` endpoint of the app running inside the container: `curl http://my-app-2-svc:8080/health`
+
+Inside a pod, call the `/health` endpoint as exposed by the gateway (reverse proxy), which in turn routes the call to the app running inside the other container/pod : `curl http://reverseproxy-svc:8080/api/health`. This routing is possible because the pods share the same network, but they are not accessible from outside.
+
+# License
+
+This code is released under the terms and agreements of [LICENSE](LICENSE).
