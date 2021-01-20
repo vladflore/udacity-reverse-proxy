@@ -56,6 +56,21 @@ Inside a pod, call the `/health` endpoint of the app running inside the containe
 
 Inside a pod, call the `/health` endpoint as exposed by the gateway (reverse proxy), which in turn routes the call to the app running inside the other container/pod : `curl http://reverseproxy-svc:8080/api/health`. This routing is possible because the pods share the same network, while not being accessible from outside.
 
+Create a **h**orizontal **p**od **a**utoscaler:
+```
+kubectl autoscale deployment my-app-2 --cpu-percent=50 --min=1 --max=50
+```
+
+List the HPAs:
+```
+kubectl get hpa
+```
+
+```
+kubectl delete pod <POD_NAME>
+kubectl delete hpa my-app-2
+```
+
 # License
 
 This code is released under the terms and agreements of [LICENSE](LICENSE).
